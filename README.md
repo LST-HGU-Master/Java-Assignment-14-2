@@ -1,14 +1,23 @@
-# Autograding Example: Java
-This example project is written in Java, and tested with Gradle/JUnit.
+# 課題 14-2: ファイル読み込み
 
-### The assignment
-The tests are currently failing because of an output mismatch. Fixing the `System.out.println` in the main method will make the tests green.
+### 課題の説明
+テキストファイル「textfile1.txt」の読み込みと画面へのprintを行うプログラムProgE2の作成と実行をしなさい。
 
-### Setup command
-N/A
+- ファイル名はString型変数を定義して実行時引数として与えること
+- ファイル読み込みで用いるFileReaderのコンストラクタやread()、close()はIOExceptionを送出する可能性があるが、例外をキャッチして対処できるようにしておくこと
 
-### Run command
-`gradle test`
+ヒント: try-with-resources文を使った例外処理(教科書17.5.4 ~17.5.6)を行うと簡潔に書ける
 
-### Notes
-- The JDK is installed on GitHub Actions machines, so you're also able to directly invoke `javac`, `java`, or any other CLI command included in the JDK. 
+### textfile1.txt
+```
+1.読み込み確認用ファイル
+2.ここは2行目です。
+3.
+```
+
+### 実行例
+```
+1.読み込み確認用ファイル
+2.ここは2行目です。
+3.
+```
