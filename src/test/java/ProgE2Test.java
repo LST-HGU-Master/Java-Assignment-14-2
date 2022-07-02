@@ -42,7 +42,7 @@ public class ProgE2Test {
         // assertion
         assertDoesNotThrow(
             () -> ProgE2.main(new String[]{"src/main/java/abcdefg.txt"}), 
-            "例外処理をthrowしてはいけません！"
+            "例外処理をthrowしてはいけません!"
         );
 
         // undo the binding in System
