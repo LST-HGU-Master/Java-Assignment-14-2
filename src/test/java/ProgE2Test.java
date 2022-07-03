@@ -1,9 +1,11 @@
 import org.junit.jupiter.api.Test;
 import java.io.*;
+import java.io.BufferedReader;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 /**
- * @version (20220616)
+ * @version (20220703)
  */
 public class ProgE2Test {
 
@@ -17,16 +19,31 @@ public class ProgE2Test {
         StandardInputStream in = new StandardInputStream();
         System.setIn(in);
 
+        String filename = "textfile1.txt";
+        // prepairing texts from the sourcefile
+        String line;
+        ArrayList<String> expected = new ArrayList<String>();
+        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+            while ( (line = br.readLine()) != null){
+                expected.add(line);
+            }
+        } catch( IOException e) {
+            System.setOut(originalOut);
+            fail("IOException occurred!（" + filename + "を用意していますか？）");
+        }
+
         // action
-        ProgE2.main(new String[]{"textfile1.txt"}); // 実行時引数をテストする場合
+        ProgE2.main(new String[]{filename}); // 実行時引数をテストする場合
         // undo the binding in System
         System.setOut(originalOut);
-        
         // assertion
-        String expected = "1.読み込み確認用ファイル\n" +
-                "2.ここは2行目です。\n" +
-                "3.";
-        assertTrue(bos.toString().contains(expected),"ファイルから読み込んだ内容とprintした内容が一致しません!");
+        String [] print = bos.toString().split("\r\n|\n", -1);
+        int count = 0;
+        for(String expStr : expected) { 
+            assertTrue(print[count++].equals(expStr),"ファイルの内容("+ count +"行目)とprintしたものが一致しません! "); // expStr
+        }
+        // assertion about more LFs than expected (print.length-1 supports the code using BufferedReader.readLine())
+        assertTrue(expected.size() == print.length -1 || expected.size() == print.length,"読み込みファイルの行数(" + expected.size() +"よりも多くの改行があります!");
     }
 
     @Test
@@ -44,7 +61,6 @@ public class ProgE2Test {
             () -> ProgE2.main(new String[]{"src/main/java/abcdefg.txt"}), 
             "例外処理をthrowしてはいけません!"
         );
-
         // undo the binding in System
         System.setOut(originalOut);
         
